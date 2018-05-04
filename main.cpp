@@ -15,8 +15,9 @@
 
 using namespace std;
 
-int main()
-{   int menuChoice = 0, startVert;
+int main(){
+    int menuChoice = 0, startVert;
+    bool stillGoing = true;
 
     cout << "(1) Find MST\n" << "(2) Depth First Traversal\n"
         << "(3) Quit\n";
@@ -27,23 +28,26 @@ int main()
         cin >> menuChoice;
 
         switch(menuChoice){
-    case 1:{
-        CreateAdjList();
-        //MinSpanTree();
-        }
-    case 2:{
-        cout << "Which vertex do you want to start at?: \n";
-        cin >> startVert;
-        startVert-=1;
+            case 1:{
+                CreateAdjList(); //First create the adjacency list before creating Min Span Tree
+                //MinSpanTree();
+                break;
+                }
+            case 2:{
+                cout << "Which vertex do you want to start at?: \n";
+                cin >> startVert;
+                startVert-=1;
 
-        //DepthFirstTrav();
+                //DepthFirstTrav();
+                break;
+                }
+            case 3:{
+                stillGoing = false;
+                cout << "Program is ending....";
+                break;
+                }
         }
-    case 3:{
-        menuChoice = 1;}
-        cout << "Program is ending....";
-        }
-
-    }while(menuChoice == 0);
+    }while((stillGoing = true));
 
     return 1;
 }
