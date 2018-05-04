@@ -1,9 +1,11 @@
-#ifndef 136_316P4_HPP_INCLUDED
-#define 136_316P4_HPP_INCLUDED
+#ifndef JSS136_316P4_HPP_INCLUDED
+#define JSS136_316P4_HPP_INCLUDED
 
 #include <iostream>
 #include <string>
 #include <fstream>
+
+using namespace std;
 
 int SIZEARRAY = 100;
 //For priority Queue
@@ -19,28 +21,47 @@ struct AdjListNode{
     AdjListNode *next;
 };
 
-void createNode(int, int, int){
+AdjListNode* createNode(int toVertex, int wht){
+    AdjListNode *newNode = new AdjListNode;
+    newNode->nextVertex = toVertex;
+    newNode->weight = wht;
+    newNode->next = nullptr;
 
+    return newNode;
 }
 
 struct AdjList{
-    AdjListNode *head; //beginning of list
+    AdjListNode *head; //beginning of each list
 };
 
-
-//Adjecency List
 struct Graph{
     int numVertex;
-    AdjList *array;
+    AdjList *array; //an array of heads to a list
 };
 
-Graph createGraph(int numVertex){
+Graph* createGraph(int numVertex){
+    Graph *newGraph = new Graph;
+    newGraph->numVertex = numVertex;
 
+    newGraph->array = new AdjList;
 
+    //Initialize graph as empty
+    for(int i = 0; i < numVertex; ++i)
+        newGraph->array[i].head = nullptr; //may need to change . to ->
 
-    return ;
+    return newGraph;
 }
 
+void addEdge(Graph *graph, int startVert, int endVert, int weight){
+    AdjListNode *newNode = createNode(endVert, weight);
+    newNode->next = graph->array[startVert].head;
+    graph->array[startVert].head = newNode;
+
+    newNode = createNode(startVert, weight);
+    newNode->next = graph->array[endVert].head;
+    graph->array[endVert].head = newNode;
+
+}
 
 void CreateAdjList(){
     //This function will read from the text file and fill in
@@ -49,7 +70,7 @@ void CreateAdjList(){
     string filename;
     int numVertex, currentVert, nextVert, wht;
 
-    cout << "Enter the name of the path to the text file you want to open:";
+    cout << "Enter the path to the text file you wish to open:";
     cin >> filename;
 
     fileObj.open(filename);
@@ -60,23 +81,19 @@ void CreateAdjList(){
     }
     fileObj >> numVertex;
 
+    //create an empty adj list
     Graph *graph = createGraph(numVertex);
 
+    //now begin filling list with edges in the text file
     while(!fileObj.eof()){
         fileObj >> currentVert;
         fileObj >> nextVert;
         fileObj >> wht;
 
-        AdjListNode newNode;
-
-        newNode = createNode(currentVert, nextVert, wht);
-
-        addNode(newNode);
-
-
-
-
+        addEdge(graph, currentVert, nextVert, wht);
     }
+    cout << "Adjacency list has been created to represent an undirected graph\n";
 
 }
 #endif // 136_316P4_HPP_INCLUDED
+
