@@ -21,7 +21,7 @@ This program assumes the test file is formatted as...
 */
 
 #include <iostream>
-#include "jss136_316p4.hpp"
+#include "136_316p4.hpp"
 
 using namespace std;
 
